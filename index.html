@@ -107,9 +107,10 @@ function home(){
  const t=tot(S.cards);
  let h=`<div class="card hero"><div class="l">総資産評価額</div><div class="v">${yen(t.v)}</div><span class="pill">${t.v-t.c>=0?'▲':'▼'} ${yen(Math.abs(t.v-t.c))} (${t.c?((t.v-t.c)/t.c*100).toFixed(1):'0.0'}%)</span><div class="l" style="margin-top:8px">取得額 ${yen(t.c)}</div></div>
  <div class="grid"><div class="card stat"><div class="l">所持枚数</div><div class="v">${t.q.toLocaleString()}<small> 枚</small></div></div><div class="card stat"><div class="l">カード種類</div><div class="v">${t.k.toLocaleString()}<small> 種</small></div></div></div>
- <div class="card"><div class="l" style="font-size:12px;color:var(--mu);font-weight:700;margin-bottom:6px">資産推移</div>${chart()}</div><h3>ジャンル別</h3>`;
- const gs=Object.keys(GN).filter(g=>S.cards.some(c=>c.g===g));
- h+=gs.length?gs.map(g=>{const a=tot(S.cards.filter(c=>c.g===g));return `<div class="card g" onclick="cur='${g}';go('coll')"><div class="dot" style="background:${GN[g].c}"></div><div class="gl"><div class="n">${GN[g].n}</div><div class="gv">${yen(a.v)}</div><div class="gp">${pl(a.v,a.c)}</div></div><div class="gr"><b>${a.q}</b>枚<br><b>${a.k}</b>種</div></div>`}).join(''):`<div class="card empty">まだカードがありません<br>右下の ＋ から最初の1枚を登録しましょう<br><button class="btn sm" style="margin:12px auto 0;display:inline-block" onclick="demo()">デモデータを入れる</button></div>`;
+ <div class="card"><div class="l" style="font-size:12px;color:var(--mu);font-weight:700;margin-bottom:6px">資産推移</div>${chart()}</div><h3>タイトル別</h3>`;
+ const gs=['poke','op','ygo'];
+ h+=gs.map(g=>{const a=tot(S.cards.filter(c=>c.g===g));return `<div class="card g" onclick="cur='${g}';go('coll')"><div class="dot" style="background:${GN[g].c}"></div><div class="gl"><div class="n">${GN[g].n}</div><div class="gv">${yen(a.v)}</div><div class="gp">${pl(a.v,a.c)}</div></div><div class="gr"><b>${a.q}</b>枚<br><b>${a.k}</b>種</div></div>`}).join('');
+ if(!S.cards.length)h+=`<div class="card empty">右下の ＋ から最初の1枚を登録しましょう</div>`;
  return h}
 function coll(){
  const gs=Object.keys(GN);let h=`<div class="chips"><button class="chip ${cur=='all'?'on':''}" onclick="cur='all';render()">すべて</button>${gs.map(g=>`<button class="chip ${cur==g?'on':''}" onclick="cur='${g}';render()">${GN[g].n}</button>`).join('')}</div>`;
